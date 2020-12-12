@@ -40,7 +40,7 @@ export default function Trainingslist() {
 
     const columns = [
         {
-            Header: 'Customer ID',
+            Header: 'Customer',
             accessor: 'customer'
         },
         {
