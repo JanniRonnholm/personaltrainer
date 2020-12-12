@@ -8,18 +8,41 @@ export default function Trainingslist() {
 
     useEffect(() => fetchTrainingsData(), []);
 
-    const fetchTrainingsData = () => {
-        fetch('https://customerrest.herokuapp.com/api/trainings')
-        .then(response => response.json())
-        .then(data => {
-            const modifiedDates = data.content.map(training => {
-                return {...training, date: moment(training.date).format('L')}
+    const fetchTrainingsData = async () => {
+        try {
+            const response = await fetch('http://customerrest.herokuapp.com/api/trainings')
+            const responseToJSON = await response.json()
+    
+            const addedCustomer = await Promise.all(responseToJSON.content.map(async (training) => {
+                try {
+                    
+                const customer = await fetch(training.links[2].href)
+                const customerToJSON = await customer.json()
+    
+                return {...training, customer: `${customerToJSON.firstname} ${customerToJSON.lastname}`}
+                } catch (error) {
+                    console.log(`Error in promise all: ${error.message}`)
+                }
+            }))
+    
+            const modifiedDates = addedCustomer.map(training => {
+                if (training !== undefined) {
+                    return {...training, date: moment(training.date).format('LLL')}
+                }
             })
+    
             setTrainings(modifiedDates)
-        })
+        } catch (error) {
+            console.log('Error: ', error.message)
+        }
     }
+    
 
     const columns = [
+        {
+            Header: 'Customer ID',
+            accessor: 'customer'
+        },
         {
             Header: 'Date',
             accessor: 'date',
