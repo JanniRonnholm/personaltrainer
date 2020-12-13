@@ -17,7 +17,7 @@ export default function Trainingslist() {
 
     const fetchTrainingsData = async () => {
         try {
-            const response = await fetch('http://customerrest.herokuapp.com/api/trainings')
+            const response = await fetch('https://customerrest.herokuapp.com/api/trainings')
             const responseToJSON = await response.json()
     
             const addedCustomer = await Promise.all(responseToJSON.content.map(async (training) => {
