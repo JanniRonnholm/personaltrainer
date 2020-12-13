@@ -12,16 +12,10 @@ export default function Addtraining(props) {
         date: '',
         duration: '',
         activity: '',
-        customer: ''
+        customer: props.customerLink
     });
 
     const handleClickOpen = () => {
-        setTraining({
-            date: '',
-            duration: '',
-            activity: '',
-            customer: props.training.links[2].href
-        })
         setOpen(true);
       };
   
@@ -69,14 +63,6 @@ export default function Addtraining(props) {
                             value={training.activity}
                             onChange={e => handleInputChange(e)}
                             label="Activity"
-                            fullWidth
-                            />
-                        <TextField
-                            margin="dense"
-                            name="links"
-                            value={training.links}
-                            onChange={e => handleInputChange(e)}
-                            label="Customer ID"
                             fullWidth
                             />
                     </DialogContent>

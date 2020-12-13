@@ -64,7 +64,7 @@ export default function Customerlist() {
         .catch(err => console.error(err))
     }
 
-    const updateTraining = (training) => {
+    const saveTraining = (training) => {
         fetch('https://customerrest.herokuapp.com/api/trainings', {
             method: 'POST',
             headers: {
@@ -109,7 +109,8 @@ export default function Customerlist() {
             sortable: false,
             filterable:false,
             width: 150,
-            Cell: row => <Addtraining updateTraining={updateTraining} training={row.original}/>
+            accessor: 'links[1].href',
+            Cell: row => <Addtraining saveTraining={saveTraining} training={row.original} customerLink={row.value}/>
         },
         {
             sortable: false,
